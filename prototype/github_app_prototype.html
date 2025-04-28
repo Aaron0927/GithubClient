@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Client - SwiftUI Prototype</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        github: {
+                            primary: '#24292e',
+                            secondary: '#0366d6',
+                            success: '#2ea44f',
+                            warning: '#d97706',
+                            danger: '#d73a49',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-gray-50">
+    <div class="max-w-[375px] mx-auto min-h-screen bg-white shadow-lg">
+        <!-- Status Bar -->
+        <div class="h-6 bg-black text-white text-xs flex justify-between items-center px-4">
+            <span>9:41</span>
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-signal"></i>
+                <i class="fas fa-wifi"></i>
+                <i class="fas fa-battery-full"></i>
+            </div>
+        </div>
+
+        <!-- Login Screen -->
+        <div class="p-6 flex flex-col items-center justify-center min-h-[calc(100vh-24px)]" id="login-screen">
+            <img src="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=200&h=200&fit=crop&crop=faces"
+                alt="GitHub Logo" class="w-24 h-24 rounded-full mb-6">
+            <h1 class="text-2xl font-bold text-gray-900 mb-2">GitHub Client</h1>
+            <p class="text-gray-600 mb-8">Your GitHub experience, simplified</p>
+            <button
+                class="w-full bg-github-primary text-white py-3 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-opacity-90 transition-colors"
+                onclick="showScreen('home-screen')">
+                <i class="fab fa-github text-xl"></i>
+                <span>Continue with GitHub</span>
+            </button>
+        </div>
+
+        <!-- Home Screen -->
+        <div class="hidden" id="home-screen">
+            <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                <h1 class="text-lg font-semibold text-gray-900">Repositories</h1>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600"></i>
+                        <span
+                            class="absolute -top-1 -right-1 bg-github-danger text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">3</span>
+                    </div>
+                    <i class="fas fa-search text-gray-600"></i>
+                </div>
+            </div>
+
+            <div class="p-4">
+                <!-- Search Bar -->
+                <div class="mb-4">
+                    <input type="search" placeholder="Search repositories..."
+                        class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:border-github-secondary">
+                </div>
+
+                <!-- Repository List -->
+                <div class="space-y-4">
+                    <div class="flex items-start space-x-3 p-3 bg-white rounded-lg shadow-sm"
+                        onclick="showScreen('repo-detail-screen')">
+                        <div
+                            class="w-10 h-10 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-gray-900">project-name</h4>
+                            <p class="text-xs text-gray-600">Updated 2 days ago</p>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <span class="text-xs text-gray-500">
+                                    <i class="fas fa-star"></i> 128
+                                </span>
+                                <span class="text-xs text-gray-500">
+                                    <i class="fas fa-code-branch"></i> 42
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">JavaScript</span>
+                    </div>
+
+                    <div class="flex items-start space-x-3 p-3 bg-white rounded-lg shadow-sm"
+                        onclick="showScreen('repo-detail-screen')">
+                        <div
+                            class="w-10 h-10 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-medium text-gray-900">another-project</h4>
+                            <p class="text-xs text-gray-600">Updated 5 days ago</p>
+                            <div class="flex items-center space-x-2 mt-1">
+                                <span class="text-xs text-gray-500">
+                                    <i class="fas fa-star"></i> 56
+                                </span>
+                                <span class="text-xs text-gray-500">
+                                    <i class="fas fa-code-branch"></i> 12
+                                </span>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-500">Swift</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-white border-t border-gray-200">
+                <div class="flex justify-around py-2">
+                    <a href="#" class="flex flex-col items-center text-github-secondary"
+                        onclick="showScreen('home-screen')">
+                        <i class="fas fa-home text-lg"></i>
+                        <span class="text-xs mt-1">Home</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('explore-screen')">
+                        <i class="fas fa-compass text-lg"></i>
+                        <span class="text-xs mt-1">Explore</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('profile-screen')">
+                        <i class="fas fa-user text-lg"></i>
+                        <span class="text-xs mt-1">Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Screen -->
+        <div class="hidden" id="profile-screen">
+            <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                <h1 class="text-lg font-semibold text-gray-900">Profile</h1>
+                <button class="text-gray-600">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+
+            <div class="p-4 space-y-4">
+                <!-- Profile Header -->
+                <div class="flex items-center space-x-4">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop&crop=faces"
+                        alt="Profile" class="w-16 h-16 rounded-full">
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900">John Doe</h2>
+                        <p class="text-sm text-gray-600">@johndoe</p>
+                        <div class="flex space-x-4 mt-2">
+                            <span class="text-xs text-gray-600"><b>42</b> Repos</span>
+                            <span class="text-xs text-gray-600"><b>128</b> Stars</span>
+                            <span class="text-xs text-gray-600"><b>56</b> Followers</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contribution Activity (GitHub style) -->
+                <div class="bg-white rounded-lg shadow-sm p-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="text-base font-semibold text-gray-900">3,936 contributions in 2022</div>
+                        <div class="text-xs text-gray-500">Contribution settings <i class="fas fa-caret-down"></i></div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <div class="inline-block">
+                            <!-- Month Labels -->
+                            <div class="flex ml-6 mb-1">
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Jan</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Feb</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Mar</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Apr</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">May</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Jun</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Jul</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Aug</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Sep</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Oct</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Nov</span>
+                                <span class="w-8 text-[10px] text-gray-500 text-center">Dec</span>
+                            </div>
+                            <div class="flex">
+                                <!-- Week columns -->
+                                <div class="flex flex-col mr-1">
+                                    <span class="h-4 text-[10px] text-gray-500">Mon</span>
+                                    <span class="h-4 text-[10px] text-gray-500">Wed</span>
+                                    <span class="h-4 text-[10px] text-gray-500">Fri</span>
+                                </div>
+                                <div id="contribution-graph" class="flex"></div>
+                            </div>
+                            <!-- Legend -->
+                            <div class="flex items-center space-x-1 mt-2 ml-6 text-xs text-gray-500">
+                                <span>Less</span>
+                                <span class="w-3 h-3 bg-gray-200 rounded-sm inline-block"></span>
+                                <span class="w-3 h-3 bg-green-200 rounded-sm inline-block"></span>
+                                <span class="w-3 h-3 bg-green-400 rounded-sm inline-block"></span>
+                                <span class="w-3 h-3 bg-green-600 rounded-sm inline-block"></span>
+                                <span>More</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-lg shadow-sm p-3">
+                    <h3 class="text-base font-semibold text-gray-900 mb-2">Recent Activity</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-code-branch text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">Pushed to <span class="font-medium">main</span></p>
+                                <p class="text-xs text-gray-600">Updated README.md</p>
+                                <p class="text-xs text-gray-500">3 hours ago</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-star text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="text-sm text-gray-900">Starred <span class="font-medium">react-native</span>
+                                </p>
+                                <p class="text-xs text-gray-600">Facebook's React Native framework</p>
+                                <p class="text-xs text-gray-500">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pinned Repositories -->
+                <div class="bg-white rounded-lg shadow-sm p-3">
+                    <h3 class="text-base font-semibold text-gray-900 mb-2">Pinned Repositories</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3">
+                            <div
+                                class="w-8 h-8 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-code text-sm"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">my-awesome-project</h4>
+                                <p class="text-xs text-gray-600">A collection of awesome things</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-star"></i> 128
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        <i class="fas fa-code-branch"></i> 42
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-white border-t border-gray-200">
+                <div class="flex justify-around py-2">
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('home-screen')">
+                        <i class="fas fa-home text-lg"></i>
+                        <span class="text-xs mt-1">Home</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('explore-screen')">
+                        <i class="fas fa-compass text-lg"></i>
+                        <span class="text-xs mt-1">Explore</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('profile-screen')">
+                        <i class="fas fa-user text-lg"></i>
+                        <span class="text-xs mt-1">Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Repository Detail Screen -->
+        <div class="hidden" id="repo-detail-screen">
+            <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <button class="text-gray-600" onclick="showScreen('home-screen')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h1 class="text-lg font-semibold text-gray-900">project-name</h1>
+                </div>
+                <button class="text-gray-600">
+                    <i class="fas fa-ellipsis-h"></i>
+                </button>
+            </div>
+
+            <div class="p-4">
+                <div class="flex items-center space-x-4 mb-6">
+                    <div class="w-12 h-12 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-semibold text-gray-900">project-name</h2>
+                        <p class="text-sm text-gray-600">Updated 2 days ago</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-code-branch text-gray-600"></i>
+                            <span class="text-sm text-gray-900">main</span>
+                        </div>
+                        <button class="text-github-secondary text-sm">
+                            <i class="fas fa-download"></i> Clone
+                        </button>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h3 class="text-sm font-medium text-gray-900 mb-2">Files</h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                <i class="fas fa-file"></i>
+                                <span>README.md</span>
+                            </div>
+                            <div class="flex items-center space-x-2 text-sm text-gray-600">
+                                <i class="fas fa-folder"></i>
+                                <span>src</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Explore Screen -->
+        <div class="hidden" id="explore-screen">
+            <div class="px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                <h1 class="text-lg font-semibold text-gray-900">Explore</h1>
+                <i class="fas fa-search text-gray-600"></i>
+            </div>
+            <div class="p-4 space-y-6">
+                <!-- Recommended Projects -->
+                <div>
+                    <h2 class="text-base font-semibold text-gray-900 mb-2">Recommended Projects</h2>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3 p-3 bg-white rounded-lg shadow-sm">
+                            <div
+                                class="w-10 h-10 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">awesome-swift</h4>
+                                <p class="text-xs text-gray-600">A curated list of awesome Swift frameworks, libraries,
+                                    and software.</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-star"></i> 23.1k</span>
+                                    <span class="text-xs text-gray-500">Swift</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 p-3 bg-white rounded-lg shadow-sm">
+                            <div
+                                class="w-10 h-10 bg-github-secondary rounded-lg flex items-center justify-center text-white">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="text-sm font-medium text-gray-900">freeCodeCamp</h4>
+                                <p class="text-xs text-gray-600">Learn to code for free.</p>
+                                <div class="flex items-center space-x-2 mt-1">
+                                    <span class="text-xs text-gray-500"><i class="fas fa-star"></i> 370k</span>
+                                    <span class="text-xs text-gray-500">JavaScript</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trending Developers -->
+                <div>
+                    <h2 class="text-base font-semibold text-gray-900 mb-2">Trending Developers</h2>
+                    <div class="flex space-x-4 overflow-x-auto pb-2">
+                        <div class="flex flex-col items-center bg-white rounded-lg shadow-sm p-3 min-w-[100px]">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg"
+                                class="w-10 h-10 rounded-full mb-2" alt="dev1">
+                            <span class="text-xs font-medium text-gray-900">devuser1</span>
+                            <span class="text-[10px] text-gray-500 mb-1">iOS/Swift</span>
+                            <button
+                                class="text-xs text-github-secondary border border-github-secondary rounded px-2 py-0.5">Follow</button>
+                        </div>
+                        <div class="flex flex-col items-center bg-white rounded-lg shadow-sm p-3 min-w-[100px]">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg"
+                                class="w-10 h-10 rounded-full mb-2" alt="dev2">
+                            <span class="text-xs font-medium text-gray-900">devuser2</span>
+                            <span class="text-[10px] text-gray-500 mb-1">Web/JS</span>
+                            <button
+                                class="text-xs text-github-secondary border border-github-secondary rounded px-2 py-0.5">Follow</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Topic Tags -->
+                <div>
+                    <h2 class="text-base font-semibold text-gray-900 mb-2">Topics</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">#Swift</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">#AI</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">#Web</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">#OpenSource</span>
+                        <span class="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-700">#Python</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Bottom Navigation -->
+            <div class="fixed bottom-0 left-0 right-0 max-w-[375px] mx-auto bg-white border-t border-gray-200">
+                <div class="flex justify-around py-2">
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('home-screen')">
+                        <i class="fas fa-home text-lg"></i>
+                        <span class="text-xs mt-1">Home</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-github-secondary"
+                        onclick="showScreen('explore-screen')">
+                        <i class="fas fa-compass text-lg"></i>
+                        <span class="text-xs mt-1">Explore</span>
+                    </a>
+                    <a href="#" class="flex flex-col items-center text-gray-500" onclick="showScreen('profile-screen')">
+                        <i class="fas fa-user text-lg"></i>
+                        <span class="text-xs mt-1">Profile</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Generate GitHub-style contribution graph (weeks as columns, days as rows)
+        const graph = document.getElementById('contribution-graph');
+        if (graph) {
+            const weeks = 53; // 53 weeks for a year
+            const daysPerWeek = 7;
+            for (let w = 0; w < weeks; w++) {
+                const weekCol = document.createElement('div');
+                weekCol.className = 'flex flex-col space-y-0.5';
+                for (let d = 0; d < daysPerWeek; d++) {
+                    const cell = document.createElement('div');
+                    cell.className = 'w-3 h-3 rounded-sm bg-gray-200';
+                    // Random level for demo
+                    const level = Math.floor(Math.random() * 4);
+                    if (level === 1) cell.classList.add('bg-green-200');
+                    if (level === 2) cell.classList.add('bg-green-400');
+                    if (level === 3) cell.classList.add('bg-green-600');
+                    cell.title = `${level * 2} contributions`;
+                    weekCol.appendChild(cell);
+                }
+                graph.appendChild(weekCol);
+            }
+        }
+
+        // Screen switching function
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('div[id$="-screen"]').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            // Show the selected screen
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+    </script>
+</body>
+
+</html>
