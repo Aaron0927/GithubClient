@@ -25,8 +25,16 @@ class NetworkLogger {
         if let httpResponse = response as? HTTPURLResponse {
             print("✅ Response: \(httpResponse.statusCode)")
         }
-        if let data = data, let json = try? JSONSerialization.jsonObject(with: data, options: []) {
-            print("📩 Response Data: \(json)")
+        if let data = data {
+            do {
+                let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+                let prettyJsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: .prettyPrinted)
+                if let prettyJsonString = String(data: prettyJsonData, encoding: .utf8) {
+                    print("📩 Response JSON:\n\(prettyJsonString)")
+                }
+            } catch {
+                print("❌ JSON 解析失败: \(error)")
+            }
         }
         #endif
     }

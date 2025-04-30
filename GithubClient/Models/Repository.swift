@@ -144,6 +144,7 @@ struct Repository: Codable, Identifiable, Hashable {
     let owner: User
     let updatedAt: Date
     let isStarred: Bool = false
+    let default_branch: String
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -156,5 +157,6 @@ struct Repository: Codable, Identifiable, Hashable {
         case language
         case owner
         case updatedAt = "updated_at"
+        case default_branch
     }
 }

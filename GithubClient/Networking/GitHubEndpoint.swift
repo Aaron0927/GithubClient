@@ -30,6 +30,7 @@ enum GitHubEndpoint {
     case repositories(page: Int = 1, per_page: Int = 30)
     case searchRepositories(
         q: String, sort: Sort = .stars, order: String = "desc", page: Int = 1, per_page: Int = 30)  // 搜索仓库接口
+    case repoContent(owner: String, repo: String, path: String? = nil)
 
     // MARK: - Issue
     case searchIssues(
@@ -80,6 +81,12 @@ extension GitHubEndpoint: EndpointProtocol {
             return "/search/repositories?q=\(q.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&sort=\(sort.rawValue)&order=\(order)&page=\(page)&per_page=\(per_page)"
         case .userRepositories(let username):
             return "/users/\(username)/repos"
+        case .repoContent(let owner, let repo, let path):
+            if let path = path {
+                return "/repos/\(owner)/\(repo)/contents/\(path)"
+            } else {
+                return "/repos/\(owner)/\(repo)/contents"
+            }
 
         // MARK: - Issue
         case .searchIssues(let q, let sort, let order, let page, let per_page):
