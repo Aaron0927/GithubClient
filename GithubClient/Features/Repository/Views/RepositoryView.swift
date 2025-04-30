@@ -10,18 +10,17 @@ import SwiftUI
 struct RepositoryView: View {
     
     @StateObject private var viewModel = RepositoryViewModel()
-    @State private var searchText: String = ""
     
     var body: some View {
         NavigationStack {
             ScrollView(.vertical, showsIndicators: false) {
                 LazyVStack {
-                    ForEach(viewModel.repos) { repo in
+                    ForEach(viewModel.isSearching ? viewModel.filteredRepos : viewModel.repos) { repo in
                         RepositoryRow(repo: repo)
                     }
                 }
             }
-            .searchable(text: $searchText, prompt: "Search repositories...")
+            .searchable(text: $viewModel.searchText, prompt: "Search repositories...")
             .navigationTitle("Repositories")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
