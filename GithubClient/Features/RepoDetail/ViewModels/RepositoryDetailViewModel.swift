@@ -15,45 +15,44 @@ final class RepositoryDetailViewModel: ObservableObject {
     @Published var paths: [RepoContent] = []
     
     private(set) var repo: Repository
-    private(set) var root: RepoContent
     var contentURL: String {
         selectedContent?.htmlURL ?? ""
     }
     
     init(repo: Repository) {
         self.repo = repo
-        self.root = RepoContent(path: "", name: "", type: .dir, htmlURL: "", downloadURL: "")
     }
     
     // 请求结点
     func fetchData(path: String? = nil) async {
         do {
             let repoContents: [RepoContent] = try await APIClient.shared.request(GitHubEndpoint.repoContent(owner: repo.owner.login, repo: repo.name, path: path))
+            self.repoContents = repoContents
             if path == nil {
-                self.root.next = repoContents
+                var root = RepoContent(path: "root", name: "root", type: .dir, htmlURL: "", downloadURL: "")
+                root.next = repoContents
+                self.paths.removeAll()
+                self.paths.append(root)
             } else {
                 selectedContent?.next = repoContents
                 if let selectedContent = selectedContent {
                     paths.append(selectedContent)
                 }
             }
-            self.repoContents = repoContents
         } catch {
             print(error)
         }
     }
     
     // 更新当前选择的结点
-    func updateSelectRepoContent(repoContent: RepoContent?) {
-        selectedContent = repoContent
-        if let repoContent = repoContent {
-            repoContents = repoContent.next ?? []
-            if let index = paths.firstIndex(where: { $0.path == repoContent.path }) {
-//                paths.removeLast(paths.count - index + 1)
-            }
-        } else {
-            repoContents = root.next ?? []
-            paths = []
+    func updateSelectRepoContent(repoContent: RepoContent) {
+        guard let index = paths.firstIndex(where: { $0.path == repoContent.path }),
+              paths.count > 1 else {
+            return
         }
+        
+        selectedContent = repoContent
+        repoContents = repoContent.next ?? []
+        paths.removeLast(paths.count - index - 1)
     }
 }

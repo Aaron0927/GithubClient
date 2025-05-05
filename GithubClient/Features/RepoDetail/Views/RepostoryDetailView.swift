@@ -38,22 +38,7 @@ struct RepostoryDetailView: View {
                 branchView
                 
                 // 文件路径导航
-                HStack(spacing: 0) {
-                    Text("Root/")
-                        .onTapGesture {
-                            viewModel.updateSelectRepoContent(repoContent: nil)
-                        }
-                    ForEach(viewModel.paths) { content in
-                        Text("\(content.path.components(separatedBy: "/").last ?? "")/")
-                            .onTapGesture {
-                                viewModel.updateSelectRepoContent(repoContent: content)
-                            }
-                    }
-                }
-                .foregroundStyle(.blue)
-                .font(.callout)
-                .lineLimit(1)
-                .truncationMode(.head)
+                pathView
                 
                 // 文件系统
                 ZStack(alignment: .leading) {
@@ -68,21 +53,16 @@ struct RepostoryDetailView: View {
                         }
                     } else {
                         folderView
-                            .task {
-                                await viewModel.fetchData()
-                            }
                     }
                 }
                 
             }
+            .task {
+                await viewModel.fetchData()
+            }
             .padding()
         }
         .navigationTitle(viewModel.repo.name)
-//        .navigationDestination(isPresented: $showDetail) {
-//            if let url = URL(string: viewModel.contentURL) {
-//                WebView(url)
-//            }
-//        }
     }
     
     // 项目名称
@@ -147,6 +127,27 @@ struct RepostoryDetailView: View {
         .font(.body)
     }
     
+    // 选中路径
+    private var pathView: some View {
+        HStack(spacing: 0) {
+            ForEach(viewModel.paths) { content in
+                if content.type == .dir {
+                    Text("\(content.path.components(separatedBy: "/").last ?? "")/")
+                        .onTapGesture {
+                            viewModel.updateSelectRepoContent(repoContent: content)
+                        }
+                } else {
+                    Text("\(content.path.components(separatedBy: "/").last ?? "")")
+                }
+            }
+        }
+        .foregroundStyle(.blue)
+        .font(.callout)
+        .lineLimit(1)
+        .truncationMode(.head)
+    }
+    
+    // 文件目录
     private var folderView: some View {
         VStack(alignment: .leading, spacing: 20) {
             ForEach(viewModel.repoContents) { content in
@@ -163,6 +164,7 @@ struct RepostoryDetailView: View {
                     switch content.type {
                     case .file:
                         showDetail = true
+                        viewModel.paths.append(content)
                     case .dir:
                         Task {
                             await viewModel.fetchData(path: content.path)

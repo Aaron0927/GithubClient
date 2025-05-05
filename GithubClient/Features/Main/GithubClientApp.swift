@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct GithubClientApp: App {
+    @StateObject private var auth = AuthManager()
+    
     var body: some Scene {
         WindowGroup {
-            GithubTabView()
+            if auth.isAuthenticated {
+                GithubTabView()
+                    .environmentObject(auth)
+            } else {
+                GCLoginView()
+                    .environmentObject(auth)
+            }
         }
     }
 }
