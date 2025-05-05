@@ -8,28 +8,31 @@
 import SwiftUI
 
 struct ProfileReposityView: View {
-    var repos: [Repository] = []
+    var repos: [Repository]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 15) {
             ForEach(repos) { repo in
-                VStack(alignment: .leading, spacing: 10) {
-                    Text(repo.name)
-                        .font(.headline)
-                        .foregroundStyle(.blue)
-                    if let description = repo.description {
-                        Text(description)
-                            .lineLimit(2)
+                HStack {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(repo.name)
+                            .font(.headline)
+                            .foregroundStyle(.blue)
+                        if let description = repo.description {
+                            Text(description)
+                                .lineLimit(2)
+                                .font(.body)
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+                        
+                        Text("更新于\(repo.updatedAt.relativeDescription)")
                             .font(.body)
                             .foregroundStyle(Color(.secondaryLabel))
                     }
-                    
-                    Text("更新于\(repo.updatedAt.relativeDescription)")
-                        .font(.body)
-                        .foregroundStyle(Color(.secondaryLabel))
+                    Spacer()
                 }
-                .frame(minHeight: 80)
-                .padding(.vertical)
+                .frame(height: 80)
+                .padding(15)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .fill(.white)
@@ -42,5 +45,5 @@ struct ProfileReposityView: View {
 }
 
 #Preview {
-    ProfileReposityView()
+    ProfileReposityView(repos: [DeveloperPreview.shared.repo])
 }

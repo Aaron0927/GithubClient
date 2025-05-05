@@ -20,7 +20,7 @@ struct GithubTabView: View {
                     Label("Explore", systemImage: "safari.fill")
                 }
             
-            Text("Profile")
+            ProfileNewView()
                 .tabItem {
                     Label("Profile", systemImage: "person.fill")
                 }
