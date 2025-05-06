@@ -8,37 +8,67 @@
 import SwiftUI
 
 struct ProfileProjectView: View {
+    @StateObject private var viewModel = UserForkRepoViewModel()
+    @State private var showDetailView: Bool = false
+    @State private var selectedRepo: Repository? = nil
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(0..<1) { _ in
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Text("iOS客户端重构")
-                            .font(.title3.bold())
-                            .foregroundStyle(.primary)
-                        Spacer()
-                        Text("3/5 完成")
-                            .font(.callout)
-                            .foregroundStyle(Color(.secondaryLabel))
-                    }
-                    ProgressView(value: 0.5, total: 1.0)
-                        .progressViewStyle(.linear)
-                    Text("将现有Objective-C代码迁移到SwiftUI")
-                        .font(.callout)
-                        .foregroundStyle(Color(.secondaryLabel))
-                    Text("更新于2天前")
-                        .font(.callout)
-                        .foregroundStyle(Color(.secondaryLabel))
-                }
-                .padding()
-                .overlay(
+            ForEach(viewModel.repos) { repo in
+                HStack(alignment: .top, spacing: 15) {
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(.gray.opacity(0.2), lineWidth: 1)
-                )
+                        .foregroundStyle(Color.blue)
+                        .frame(width: 50, height: 50)
+                        .overlay {
+                            Text("</>")
+                                .foregroundStyle(Color.white)
+                                .font(.headline)
+                        }
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text(repo.name)
+                            .font(.headline.bold())
+                        if let description = repo.description {
+                            Text(description)
+                                .font(.subheadline)
+                                .foregroundStyle(Color(.secondaryLabel))
+                        }
+                        HStack(spacing: 10) {
+                            HStack(spacing: 2) {
+                                Image(systemName: "arrow.branch")
+                                    .foregroundStyle(Color(.secondaryLabel))
+                                Text("\(repo.forks_count)")
+                                    .font(.callout)
+                                    .foregroundStyle(Color(.secondaryLabel))
+                            }
+                            
+                            if let language = repo.language {
+                                HStack(spacing: 2) {
+                                    LanguageColor(language: language)
+                                    Text(language)
+                                        .font(.callout)
+                                        .foregroundStyle(Color(.secondaryLabel))
+                                }
+                            }
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.vertical)
+                .onTapGesture {
+                    segue(repo: repo)
+                }
             }
             Spacer()
         }
-        .frame(minHeight: kScreenH - kStatusAndNavBarH)
+        .task {
+            await viewModel.fetchData()
+        }
+    }
+    
+    private func segue(repo: Repository) {
+        selectedRepo = repo
+        showDetailView = true
     }
 }
 

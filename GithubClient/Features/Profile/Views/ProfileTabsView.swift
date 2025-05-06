@@ -12,7 +12,7 @@ struct ProfileTabsView<Content: View>: View {
     @ViewBuilder var content: () -> Content
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             content()
         }
     }

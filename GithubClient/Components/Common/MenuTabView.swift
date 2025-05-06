@@ -57,8 +57,8 @@ struct MenuTabView: View {
                 }
             }
             .scrollDisabled(scrollDisabled)
+            .frame(height: 30)
         }
-        .frame(height: 40)
     }
 }
 

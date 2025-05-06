@@ -15,11 +15,13 @@ struct ProfileNewView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                LazyVStack(alignment: .leading, spacing: 20, pinnedViews: [.sectionHeaders, .sectionFooters]) {
-                    ProfileHeaderView(user: viewModel.user)
-                    ContributionGraphView(contrbutions: viewModel.contributions, weeks: viewModel.weeks)
-                    ProfileStatsView(user: viewModel.user)
-                    PinnedReposView()
+                LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders, .sectionFooters]) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        ProfileHeaderView(user: viewModel.user)
+                        ContributionGraphView(contrbutions: viewModel.contributions, weeks: viewModel.weeks)
+                        ProfileStatsView(user: viewModel.user)
+                        PinnedReposView()
+                    }
                     
                     Section {
                         ProfileTabsView {
@@ -29,13 +31,13 @@ struct ProfileNewView: View {
                                 ProfileReposityView(repos: viewModel.repos)
                             case .stars:
                                 ProfileStarView()
-                            case .projects:
+                            case .forks:
                                 ProfileProjectView()
                             }
                         }
                     } header: {
                         MenuTabView(currentSelected: $selectedIndex, titles: ProfileTab.allCases.map { $0.name }, selectedColor: .primary, unselectedColor: .gray)
-                            .padding(.top, 5)
+                            .padding(.top, 20)
                             .background(.white)
                     }
                 }

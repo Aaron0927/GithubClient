@@ -10,7 +10,7 @@ import Foundation
 enum ProfileTab: Int, CaseIterable {
     case repositories = 0
     case stars = 1
-    case projects = 2
+    case forks = 2
     
     var name: String {
         switch self {
@@ -18,7 +18,7 @@ enum ProfileTab: Int, CaseIterable {
             "仓库"
         case .stars:
             "星标"
-        case .projects:
+        case .forks:
             "项目"
         }
     }
@@ -50,6 +50,5 @@ final class ProfileNewViewModel: ObservableObject {
         }
     }
     
-    // 获取用户仓库
     
 }

@@ -25,6 +25,7 @@ enum GitHubEndpoint {
     case userRepositories(username: String)  // 用户仓库
     case searchUsers(q: String, page: Int = 1, per_page: Int = 30)  // 搜索用户接口
     case contributions(userName: String) // 用户贡献日历
+    case userForkRepos(userName: String) // 列出用户的所有fork仓库
 
     // MARK: - Repository
     case repositories(page: Int = 1, per_page: Int = 30)
@@ -64,13 +65,16 @@ extension GitHubEndpoint: EndpointProtocol {
         case .readme(let owner, let repo):
             return "/repos/\(owner)/\(repo)/readme"
         case .userStarred:
-            return "/user/starred"
+            return "/user/starred?sort=created&direction=desc"
         case .userFollowing:
             return "/user/following"
         case .searchUsers(let q, let page, let per_page):
             return "/search/users?q=\(q.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")&page=\(page)&per_page=\(per_page)"
         case .contributions(let userName):
             return "/api?user=\(userName)"
+        case .userForkRepos(let userName):
+            return "/users/\(userName)/repos?type=forks"
+            
 
         // MARK: - Repos
         case .userRepos(let type, let page, let per_page):
