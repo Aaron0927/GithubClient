@@ -15,7 +15,7 @@ struct GithubTabView: View {
                     Label("Home", systemImage: "house.fill")
                 }
             
-            Text("Explore")
+            ExploreView()
                 .tabItem {
                     Label("Explore", systemImage: "safari.fill")
                 }

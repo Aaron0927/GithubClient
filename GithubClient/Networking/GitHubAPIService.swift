@@ -75,17 +75,16 @@ extension GitHubAPIService {
     /// 获取推荐仓库
     func fetchRecommendRepos() async throws -> [Repository] {
         async let personalized = fetchPersonlizedRecommendations()
-        //        async let trending = fetchTrendingRepositories()
-        //        async let popular = fetchPopularRepositories()
+        async let trending = fetchTrendingRepositories()
+        async let popular = fetchPopularRepositories()
 
         let results = (await (try? personalized) ?? [])
-        //        + (await (try? trending) ?? [])
-        //        + (await (try? popular) ?? [])
-        return []
-//        return Array(
-//            Array(Set(results))
-//                .sortedByRelevance()
-//                .prefix(20))
+                + (await (try? trending) ?? [])
+                + (await (try? popular) ?? [])
+        return Array(
+            Array(Set(results))
+                .sortedByRelevance()
+                .prefix(20))
     }
 
     /// 获取用户个性推荐

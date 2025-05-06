@@ -42,7 +42,7 @@ struct HomeView: View {
                 SearchView()
             })
             .navigationDestination(isPresented: $showTrendingRepoView, destination: {
-                TrendingReposView()
+                TrendingReposView(repos: viewModel.trendingRepos)
             })
             .refreshable {
                 await viewModel.refresh()
@@ -98,6 +98,8 @@ struct HomeView: View {
                    // 查看更多推荐仓库视图
                 } label: {
                     Text("查看全部推荐")
+                        .foregroundStyle(Color.blue)
+                        .font(.body)
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 8)
                 }
