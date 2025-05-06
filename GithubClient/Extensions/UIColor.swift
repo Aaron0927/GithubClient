@@ -54,9 +54,9 @@ extension UIColor {
     
     /// 支持 RGB、RGBA、RRGGBB、RRGGBBAA 格式，并支持带 `#` 前缀的字符串
     /// - Parameter hexString: 颜色字符串，例如 `#308FFF`、`308FFF`、`#11223344` 等
-    convenience init(hexString: String) {
+    convenience init(hex: String) {
         // 去除 `#` 前缀
-        var cleanedString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
+        var cleanedString = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         if cleanedString.hasPrefix("#") {
             cleanedString.removeFirst()
         }
@@ -107,7 +107,7 @@ extension UIColor {
     
     
     /// random color
-    var randomColor: UIColor {
+    static var randomColor: UIColor {
         UIColor(red: Double.random(in: 0...1), green: Double.random(in: 0...1), blue: Double.random(in: 0...1), alpha: 1.0)
     }
 }

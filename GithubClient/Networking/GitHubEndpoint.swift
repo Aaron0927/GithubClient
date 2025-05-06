@@ -18,7 +18,6 @@ enum GitHubEndpoint {
     // MARK: - User
     case user
     case users(userName: String)
-    case readme(owner: String, repo: String)
     case userRepos(type: String = "all", page: Int = 1, per_page: Int = 30) // 授权用户仓库列表
     case userStarred  // 用户Starred过的仓库
     case userFollowing  // 用户关注的人
@@ -62,8 +61,6 @@ extension GitHubEndpoint: EndpointProtocol {
             return "/user"
         case .users(let userName):
             return "/users/\(userName)"
-        case .readme(let owner, let repo):
-            return "/repos/\(owner)/\(repo)/readme"
         case .userStarred:
             return "/user/starred?sort=created&direction=desc"
         case .userFollowing:
