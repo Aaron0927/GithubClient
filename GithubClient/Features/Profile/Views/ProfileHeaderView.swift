@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileHeaderView: View {
+    @State private var showSettingView: Bool = false
     
     let user: User?
     
@@ -37,7 +38,7 @@ struct ProfileHeaderView: View {
                     }
                     
                     Button {
-                        print("编辑资料")
+                        showSettingView = true
                     } label: {
                         Text("编辑资料")
                             .font(.subheadline)
@@ -53,6 +54,9 @@ struct ProfileHeaderView: View {
                     )
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .navigationDestination(isPresented: $showSettingView) {
+                SettingView()
             }
         } else {
             // TODO: 未登录页面
